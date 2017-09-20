@@ -1,0 +1,21 @@
+{
+  "name": "koa-url-cache",
+  "version": "1.0.0",
+  "author": "kissliux <shanelau1021@gmail.com>",
+  "contributors": [
+  ],
+  "description": "Koa2 middleware for cache response data",
+  "main": "lib.js",
+  "engines": {
+    "node": " >7.0.0"
+  },
+  "homepage": "https://github.com/shanelau/koa-url-cache",
+  "license": "MIT",
+  "dependencies": {
+    "bluebird": "^3.5.0",
+    "koa": "^2.3.0",
+    "path-to-regexp": "^2.0.0",
+    "redis": "^2.8.0",
+    "winston": "^2.3.1"
+  }
+}
