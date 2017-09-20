@@ -32,7 +32,6 @@ const config = {
 app.use(cache(config));
 
 app.use(ctx => {
-  console.log(ctx.request.url);
   if(ctx.request.url === '/')
     ctx.body = 'Hello user';
   if (ctx.request.url.indexOf('/api/user') !== -1)

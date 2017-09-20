@@ -13,7 +13,7 @@ module.exports = (config)=>{
   });
 
   client.on("error", function (err) {
-    console.log("Error " + err);
+    logger.error("Error " + err);
   });
   return client;
 }
