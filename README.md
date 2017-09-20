@@ -1,4 +1,4 @@
-# koa-url-cache
+# koa2-url-cache
 Koa 2 middleware for cache response data.
 
 1. regular match url. [path-to-regexp](https://github.com/pillarjs/path-to-regexp)
@@ -7,7 +7,7 @@ Koa 2 middleware for cache response data.
 ## Install
 
 ```
-npm install koa-url-cache --save
+npm install koa2-url-cache --save
 ```
 Get start
 
