@@ -3,7 +3,7 @@ const app = new Koa();
 const cache = require('./lib');
 const config = {
   redis: {
-    host: '121.196.203.34',
+    host: '127.0.0.1',
     port: 6379,
     password: '',
     db: 0,

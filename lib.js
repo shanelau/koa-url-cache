@@ -18,12 +18,16 @@ function needCache(key) {
  */
 module.exports = options => {
   logger.level = 'info' || options.loggerLevel;
-  const disable = options.disable || false;
-  const cachePrefix = options.prefix || 'page:';
   const redis = require('./redis.js')(options.redis);
+  const config = {
+    disable: options.disable || false,
+    cachePrefix: options.prefix || 'page:',
+    urls: options.urls || {},
+    addHeaders: options.addHeaders || {},
+  }
 
-  Object.keys(options.urls).forEach((url)=>{
-    const item = options.urls[url];
+  Object.keys(config.urls).forEach((url)=>{
+    const item = config.urls[url];
     item.regex = pathToRegexp(url);
     item.addHeaders = item.addHeaders || [];
     regexs.push(item);
@@ -31,7 +35,7 @@ module.exports = options => {
 
   return async function cache(ctx, next) {
     // skip
-    if (disable) {
+    if (config.disable) {
       await next();
       return;
     }
@@ -42,16 +46,16 @@ module.exports = options => {
       return await next();
     }
       // 需要缓存
-      const data = await redis.getAsync(cachePrefix + key);
+      const data = await redis.getAsync(config.cachePrefix + key);
       if (data && !ctx.request.query.refresh) {  // redis 存在数据，并且不是主动缓存
         logger.info(key, ' cached');
         ctx.set('Cache-Control', `max-age=${patten.ttl}`);
         // set common headers
-        Object.keys(options.addHeaders).forEach(header =>{
-          ctx.set(header, options.addHeaders[header]);
+        Object.keys(config.addHeaders).forEach(header =>{
+          ctx.set(header, config.addHeaders[header]);
         });
         // set url headers
-        Object.keys(patten.addHeaders).forEach(header => {
+        Object.keys(patten.addHeaders || {}).forEach(header => {
           ctx.set(header, patten.addHeaders[header]);
         });
         ctx.response.body = JSON.parse(data);
@@ -64,7 +68,7 @@ module.exports = options => {
           key = key.replace('&refresh=1', ''); // /api/helo?a=b&refresh=1
         }
         const result = JSON.stringify(ctx.response.body);
-        await redis.setAsync(cachePrefix + key, result, 'EX', patten.ttl);
+        await redis.setAsync(config.cachePrefix + key, result, 'EX', patten.ttl);
       }
   };
 };
