@@ -45,9 +45,9 @@ module.exports = options => {
     if (!patten.ttl) {
       return await next();
     }
-      // 需要缓存
+    if (!ctx.request.query.refresh) { // 不需要主动缓存
       const data = await redis.getAsync(config.cachePrefix + key);
-      if (data && !ctx.request.query.refresh) {  // redis 存在数据，并且不是主动缓存
+      if (data) {  // redis 存在数据，并且不是主动缓存
         logger.info(key, ' cached');
         ctx.set('Cache-Control', `max-age=${patten.ttl}`);
         // set common headers
@@ -61,14 +61,15 @@ module.exports = options => {
         ctx.response.body = JSON.parse(data);
         return;
       }
-      await next();
-      if (ctx.status === 200) {
-        if (ctx.request.query.refresh) {
-          key = key.replace('?refresh=1', ''); // /api/helo?refresh=1
-          key = key.replace('&refresh=1', ''); // /api/helo?a=b&refresh=1
-        }
-        const result = JSON.stringify(ctx.response.body);
-        await redis.setAsync(config.cachePrefix + key, result, 'EX', patten.ttl);
+    }
+    await next();
+    if (ctx.status === 200) {
+      if (ctx.request.query.refresh) {
+        key = key.replace('?refresh=1', ''); // /api/helo?refresh=1
+        key = key.replace('&refresh=1', ''); // /api/helo?a=b&refresh=1
       }
+      const result = JSON.stringify(ctx.response.body);
+      await redis.setAsync(config.cachePrefix + key, result, 'EX', patten.ttl);
+    }
   };
 };

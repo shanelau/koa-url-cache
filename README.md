@@ -28,6 +28,11 @@ const config = {
 app.use(cache(config));
 ```
 
+## refresh
+Delete cache manual, qury url add parameter `refresh=1`
+### demo
+`/api/user/list?refresh=1`
+
 ## Config
 
 ###  redis
