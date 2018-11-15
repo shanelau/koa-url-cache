@@ -61,7 +61,7 @@ Add all key-value to response headers.
 ```
 ### urls {Object}
 * `key` is match by [path-to-regexp](https://github.com/pillarjs/path-to-regexp)
-    * `ttl` {integer}  expire in ttl. seconds
+    * `ttl` {integer}  expire in ttl. seconds。no cache ,set `ttl = null`
     * `addHeaders` {Object}. It will cover the top level `addHeaders`
 
 ```
