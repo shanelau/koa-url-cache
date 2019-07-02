@@ -1,5 +1,5 @@
 # koa2-url-cache
-Koa 2 middleware for cache response data.
+Koa 2 middleware for cache response data. 
 
 1. regular match url. [path-to-regexp](https://github.com/pillarjs/path-to-regexp)
 2. cache data in redis.
@@ -49,6 +49,9 @@ Delete cache manual, qury url add parameter `refresh=1`
 ###   loggerLevel [optional]
 1. Default 'info'
 2. Power by [winston](https://github.com/winstonjs/winston)
+
+### http code 200
+only cache http code==200 error
 
 ### addHeaders {Object} [optional]
 Add all key-value to response headers.
