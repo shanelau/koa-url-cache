@@ -18,13 +18,13 @@ const config = {
   },
   urls: {
     '/api/user': {
-      ttl: '30', // seconds
+      ttl: 300, // seconds
       addHeaders: { // custom headers
         'x-power':'lx'
       }
     },
     '/api/josn': {
-      ttl: '30', // seconds
+      ttl: 30, // seconds
       cors: 'http://localhost:7002'
     }
   }

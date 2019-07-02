@@ -49,7 +49,7 @@ module.exports = options => {
       const data = await redis.getAsync(config.cachePrefix + key);
       if (data) {  // redis 存在数据，并且不是主动缓存
         logger.info(key, ' cached');
-        ctx.set('Cache-Control', `max-age=${patten.ttl}`);
+        ctx.set('Cache-Control', `no-cache,max-age=${patten.ttl}`);
         // set common headers
         Object.keys(config.addHeaders).forEach(header =>{
           ctx.set(header, config.addHeaders[header]);
